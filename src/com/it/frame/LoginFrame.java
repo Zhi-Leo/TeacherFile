@@ -22,7 +22,7 @@ public class LoginFrame extends JFrame {
         //传入 null 时，表示相对于屏幕中央位置进行定位。
         setLocationRelativeTo(null);
 
-        // 创建面板
+        // 创建面板4行1列
         JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
 
         //  设置边框
@@ -38,7 +38,7 @@ public class LoginFrame extends JFrame {
         // 密码
         JPanel passPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         passPanel.add(new JLabel("密  码:"));
-        passwordField = new JPasswordField(30);
+        passwordField = new JPasswordField(30);//用密文，即不显示密码passwordField
         passPanel.add(passwordField);
         panel.add(passPanel);
 
@@ -90,6 +90,7 @@ public class LoginFrame extends JFrame {
         // 6. 提示用户注册成功
         JOptionPane.showMessageDialog(this, "注册成功,请点击登录");
     }
+
 
 
     private void login() {

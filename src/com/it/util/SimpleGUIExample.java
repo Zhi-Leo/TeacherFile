@@ -70,14 +70,13 @@ class gui{
         jf.setLayout(new BorderLayout());
 
 
-//        新建面板(装姓名和输入框)
+//        新建面板(装姓名和输入框)JPanel jp1=new JPanel();
         JPanel jp1=new JPanel();
         JLabel jl=new JLabel("姓名");
         JTextField  jtf=new JTextField(20);
         jp1.add(jl);
         jp1.add(jtf);
-
-//        添加到顶部
+        //        添加到顶部
         jf.add(jp1,BorderLayout.NORTH);
 
 //        再次新建面板，装文本域和下拉框
@@ -112,13 +111,27 @@ class gui{
                 System.out.println("姓名："+jtf.getText());
                 System.out.println("内容："+jta.getText());
                 System.out.println("选项："+jcb.getSelectedItem());
+                JOptionPane.showMessageDialog(jf, "姓名：" + jtf.getText() + "\n描述：" + jta.getText() + "\n类别：" + jcb.getSelectedItem()+"\n提交成功！");
             }
         });
-        JOptionPane.showMessageDialog(jf,"提交成功！");
 
+
+//      显示页面
         jf.setVisible(true);
-
-
+//        显示在哪个位置，如果不设置，默认显示在屏幕中间
+        jf.setLocationRelativeTo(null);
     }
 }
 
+
+
+
+
+class uid{
+    public static void main(String[] args) {
+
+    }
+}
+class javad{
+
+}
