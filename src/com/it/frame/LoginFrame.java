@@ -94,6 +94,7 @@ public class LoginFrame extends JFrame {
 //        boundFrame.setSize(500,500);
 //        boundFrame.setLocationRelativeTo(orig);
 
+
     }
 
 
@@ -126,8 +127,8 @@ public class LoginFrame extends JFrame {
         if (password.equals(user.getPassword())&&user.getRole().equals("teacher")) {
             JOptionPane.showMessageDialog(this, "登陆成功");
             // 关闭登录窗口
-            new MainFrame(username).setVisible(true); // 打开主界面
         }
+        new MainFrame(user.getUsername()).setVisible(true);
     }
 
 }
