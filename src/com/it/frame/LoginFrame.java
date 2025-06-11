@@ -89,10 +89,17 @@ public class LoginFrame extends JFrame {
         DataUtil.saveUser(user); //  保存用户信息
         // 6. 提示用户注册成功
         JOptionPane.showMessageDialog(this, "注册成功,请点击登录");
+//    点击注册按钮后打开另外一个窗口，展示注册登记表，并绑定原窗口不可用
+//        JFrame boundFrame=new JFrame("注册表单");
+//        boundFrame.setSize(500,500);
+//        boundFrame.setLocationRelativeTo(orig);
+
     }
 
 
-
+/**
+*登录
+ */
     private void login() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
@@ -112,28 +119,15 @@ public class LoginFrame extends JFrame {
             JOptionPane.showMessageDialog(this, "密码错误");
             return;
         }
-        // 登录成功
+        // 关闭登录窗口
         dispose();
+        // 登录成功
+
         if (password.equals(user.getPassword())&&user.getRole().equals("teacher")) {
             JOptionPane.showMessageDialog(this, "登陆成功");
             // 关闭登录窗口
-            new MainFrame().setVisible(true); // 打开主界面
+            new MainFrame(username).setVisible(true); // 打开主界面
         }
-    }
-
-
-    /**
-     * 主界面
-     */
-    public class MainFrame extends JFrame {
-
-        public MainFrame() {
-            setTitle("教师工作量管理");
-            setSize(800, 500);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setLocationRelativeTo(null);
-        }
-
     }
 
 }
