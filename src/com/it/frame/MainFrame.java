@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class MainFrame extends JFrame {
     DefaultTableModel model;
     User currentUser;
-    String  user;
+    User  user;
     JTable jtable;
-    public MainFrame(String user) {
+    public MainFrame(User user) {
         this.user=user;
         setTitle("工作量管理系统 - " + user);
 //        设置大小
@@ -37,15 +37,19 @@ public class MainFrame extends JFrame {
 //        新建菜单装操作里面有添加工作量和退出选项，并且放到左上角
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("操作");
-        JMenuItem addWorkload = new JMenuItem("添加工作量");
+        JMenuItem WorkloadFrame = new JMenuItem("添加工作量");
         JMenuItem exit = new JMenuItem("退出");
-        menu.add(addWorkload);
+        menu.add(WorkloadFrame);
         menu.add(exit);
 
 //        关闭当前页面，返回登录页面
         exit.addActionListener(e -> {
             dispose();
             new LoginFrame().setVisible(true);
+        });
+//        添加工作量
+        WorkloadFrame.addActionListener(e -> {
+            new WorkloadFrame(this,user).setVisible(true);
         });
 
         menuBar.add(menu);
@@ -103,7 +107,7 @@ public class MainFrame extends JFrame {
     private void refreshTable() {
 //        清空数据
         model.getColumnName(0);
-        ArrayList<Workload> workloads= DataUtil.getWorkloadsByTeacherName(user);
+        ArrayList<Workload> workloads= DataUtil.getWorkloadsByTeacherName(user.getUsername());
 //        获取所有工作量需要设置数据到模型
 //        model.setDataVector(DataUtil.workloadList2StringList(workloads),model.getColumnIdentifiers());
     for(Workload workload:workloads)

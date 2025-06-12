@@ -128,7 +128,7 @@ public class LoginFrame extends JFrame {
             JOptionPane.showMessageDialog(this, "登陆成功");
             // 关闭登录窗口
         }
-        new MainFrame(user.getUsername()).setVisible(true);
+        new MainFrame(user).setVisible(true);
     }
 
 }
