@@ -6,6 +6,7 @@ import com.it.util.DataUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 /**
  * 主界面
  */
-
 
 public class MainFrame extends JFrame {
     DefaultTableModel model;
@@ -64,31 +64,34 @@ public class MainFrame extends JFrame {
 //        setResizable(false);
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        this.setJMenuBar(menuBar);
-
-////        帮助菜单栏含有关于
+//
+//        帮助菜单栏含有关于
 //        JMenuBar helpMenuBar = new JMenuBar();
 //        JMenu helpMenu = new JMenu("帮助");
 //        JMenuItem about = new JMenuItem("关于");
 //        helpMenu.add(about);
 //        helpMenuBar.add(helpMenu);
-//        setJMenuBar(helpMenuBar);
+////        this.setJMenuBar(helpMenuBar);
+//
 //        about.addActionListener(e->{
 //            JOptionPane.showMessageDialog(this, "作者：张三\n" +
 //                    "学号：20202110010011001\n" +
 //                    "联系方式：12345678901\n" +
 //                    "邮箱：<EMAIL>");
 //        });
-//        弹出关于框后当前页面变为不可用
-//        setVisible(false);
-//        setVisible(true);
-//        setResizable(false);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setLocationRelativeTo(null);
-//        setVisible(true);
+
+
         Object[] bt = new Object[]{"ID", "教师名称", "日期", "工作小时", "工作内容描述", "操作"};
         model = new DefaultTableModel(bt, 0);
 //        根据表格模型创建表格组件
         jtable = new JTable(model);
+//        设置表格行高为40
+        jtable.setRowHeight(20);
+//        添加菜单按钮编辑和删除
+        TableColumn column = jtable.getColumnModel().getColumn(5);
+        column.setCellRenderer(new ButtonRenderer());
+        column.setCellEditor(new ButtonEditor(jtable, this));
+
 //        创建一个滑动框讲表格包裹起来
         JScrollPane jsp = new JScrollPane(jtable);
         add(jsp);
@@ -119,7 +122,7 @@ public class MainFrame extends JFrame {
                         workload.getWorkDate(),
                         workload.getHours(),
                         workload.getDescription(),
-                        "编辑"});
+                });
             }
         } else {
             ArrayList<Workload> workloads = DataUtil.getWorkloadsByTeacherName(user.getUsername());
@@ -129,7 +132,7 @@ public class MainFrame extends JFrame {
                         workload.getWorkDate(),
                         workload.getHours(),
                         workload.getDescription(),
-                        "编辑"});
+                });
             }
         }
     }

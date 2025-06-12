@@ -33,7 +33,7 @@ public class WorkloadFrame extends JDialog {
         // 设置第一个部分：表单面板（4行1列）
         JPanel formPanel = new JPanel(new GridLayout(4, 1, 3, 3));
 
-        // 创建第一行的面板，左右布局
+        // 创建第一行的面板，左右 布局
         JPanel row1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel teacher = new JLabel("教师名称:");
         JComboBox<String> teacherCBox = new JComboBox<>();
