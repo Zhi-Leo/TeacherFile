@@ -94,7 +94,6 @@ public class LoginFrame extends JFrame {
 //        boundFrame.setSize(500,500);
 //        boundFrame.setLocationRelativeTo(orig);
 
-
     }
 
 

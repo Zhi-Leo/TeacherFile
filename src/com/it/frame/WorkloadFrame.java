@@ -6,6 +6,9 @@ import com.it.util.DataUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -44,11 +47,13 @@ public class WorkloadFrame extends JDialog {
         JLabel teacher = new JLabel("教师名称:");
         JComboBox<String> teacherCBox = new JComboBox<>();
 
-        for (User user0 : DataUtil.getAllTeachers()) {
-            teacherCBox.addItem(user0.getUsername());
-        }
+        if(("admin").equals(user.getRole())){
+            for (User user0 : DataUtil.getAllTeachers()) {
+                teacherCBox.addItem(user0.getUsername());
+            }
+        }else{teacherCBox.addItem(user.getUsername());}
 
-//        设置教师名字
+//设置教师名字
         if(workload0 != null) {
             // 编辑老师 - 应该是设置选中项而不是获取
             teacherCBox.setSelectedItem(workload0.getTeacher());
@@ -73,7 +78,7 @@ public class WorkloadFrame extends JDialog {
         JPanel row2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel date = new JLabel("工作日期:");
 
-// 设置工作日期
+//设置工作日期
         if(workload0 != null) {
             // 编辑工作日期 - 应该设置文本而不是获取
             dateField.setText(workload0.getWorkDate()); // 假设属性名为getWorkDate()
@@ -91,9 +96,20 @@ public class WorkloadFrame extends JDialog {
         JPanel row3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel how = new JLabel("工作小时:");
 
-        //        设置工作小时
+//设置工作小时
+//        工作时长hoursField输入框只能输入数字,限定一下
+        hoursField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+                }
+        });
+
         if(workload!=null){
-//            编辑工作小时
+            //编辑工作小时
             hoursField.setText(workload.getHours()+"");
         }
 
@@ -104,9 +120,9 @@ public class WorkloadFrame extends JDialog {
         /// 第四行数据设置
         JPanel row4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel miao = new JLabel("工作描述:");
-        //        设置工作描述
+//设置工作描述
         if(workload!=null&&workload.getDescription()!=null){
-//            编辑工作描述
+            //编辑工作描述
             descArea.setText(workload.getDescription());
             descArea.setCaretPosition(0);
 

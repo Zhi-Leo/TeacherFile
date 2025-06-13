@@ -15,8 +15,8 @@ import java.util.ArrayList;
  */
 
 public class MainFrame extends JFrame {
-    private DefaultTableModel model;
     private User currentUser;
+    private DefaultTableModel model;
     private User user;
     private JTable jtable;
     private int selectedRow;
@@ -25,8 +25,8 @@ public class MainFrame extends JFrame {
     private JTextField dateField = new JTextField(20);
     private JTextField hoursField = new JTextField(20);
     private JTextArea descArea = new JTextArea(3, 20);
-    private MainFrame mainFrame;
     private Workload workload = new Workload();
+    private MainFrame mainFrame;
 
     public MainFrame(User user) {
         this.user = user;
@@ -71,14 +71,13 @@ public class MainFrame extends JFrame {
 //        setResizable(false);
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        this.setJMenuBar(menuBar);
-//
 //        帮助菜单栏含有关于
 //        JMenuBar helpMenuBar = new JMenuBar();
 //        JMenu helpMenu = new JMenu("帮助");
 //        JMenuItem about = new JMenuItem("关于");
 //        helpMenu.add(about);
 //        helpMenuBar.add(helpMenu);
-////        this.setJMenuBar(helpMenuBar);
+//        this.setJMenuBar(helpMenuBar);
 //
 //        about.addActionListener(e->{
 //            JOptionPane.showMessageDialog(this, "作者：张三\n" +
@@ -142,46 +141,6 @@ public class MainFrame extends JFrame {
                 });
             }
         }
-    }
-
-    private void saveWorkload() {
-        // 获取4个字段的信息
-        String teacherName = teacherField.getText();
-        float workHours;
-
-        // 验证工作小时是否为有效数字
-        try {
-            workHours = Float.parseFloat(hoursField.getText());
-            if (workHours <= 0) {
-                JOptionPane.showMessageDialog(this, "工作小时必须大于0", "输入错误", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "请输入有效的工作小时数", "输入错误", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String workDate = dateField.getText();
-        String description = descArea.getText();
-
-        // 修改当前Workload对象的四个字段的信息
-
-
-//        workload.setTeacher(teacherName);
-//        workload.setHours(workHours);
-//        workload.setWorkDate(workDate);
-//        workload.setDescription(description);
-
-        // 保存数据
-        DataUtil.saveWorkload(workload);
-
-        // 刷新父窗口表格
-        if (mainFrame != null) {
-            mainFrame.refreshTable();
-        }
-
-        // 关闭当前窗口
-        dispose();
     }
 
     public void deleteWorkload(MainFrame parent, DefaultTableModel tableModel, int selectedRow) {
