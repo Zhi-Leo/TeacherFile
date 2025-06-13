@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 /**
@@ -16,14 +15,22 @@ import java.util.ArrayList;
  */
 
 public class MainFrame extends JFrame {
-    DefaultTableModel model;
-    User currentUser;
-    User user;
-    JTable jtable;
+    private DefaultTableModel model;
+    private User currentUser;
+    private User user;
+    private JTable jtable;
+    private int selectedRow;
+
+    private JTextField teacherField = new JTextField(20);
+    private JTextField dateField = new JTextField(20);
+    private JTextField hoursField = new JTextField(20);
+    private JTextArea descArea = new JTextArea(3, 20);
+    private MainFrame mainFrame;
+    private Workload workload = new Workload();
 
     public MainFrame(User user) {
         this.user = user;
-        setTitle("工作量管理系统 - " + user.getUsername());
+        setTitle("教师工作量管理系统 - " + user.getUsername());
 //        设置大小
         setSize(750, 500);
 //        设置最小化关闭
@@ -50,7 +57,7 @@ public class MainFrame extends JFrame {
         });
 //        添加工作量
         WorkloadFrame.addActionListener(e -> {
-            new WorkloadFrame(this, user).setVisible(true);
+            new WorkloadFrame(this, null, user).setVisible(true);
         });
 
         menuBar.add(menu);
@@ -85,12 +92,12 @@ public class MainFrame extends JFrame {
         model = new DefaultTableModel(bt, 0);
 //        根据表格模型创建表格组件
         jtable = new JTable(model);
-//        设置表格行高为40
+//        设置表格行高为20
         jtable.setRowHeight(20);
 //        添加菜单按钮编辑和删除
         TableColumn column = jtable.getColumnModel().getColumn(5);
         column.setCellRenderer(new ButtonRenderer());
-        column.setCellEditor(new ButtonEditor(jtable, this));
+        column.setCellEditor(new ButtonEditor(jtable, this, user, model));
 
 //        创建一个滑动框讲表格包裹起来
         JScrollPane jsp = new JScrollPane(jtable);
@@ -135,5 +142,73 @@ public class MainFrame extends JFrame {
                 });
             }
         }
+    }
+
+    private void saveWorkload() {
+        // 获取4个字段的信息
+        String teacherName = teacherField.getText();
+        float workHours;
+
+        // 验证工作小时是否为有效数字
+        try {
+            workHours = Float.parseFloat(hoursField.getText());
+            if (workHours <= 0) {
+                JOptionPane.showMessageDialog(this, "工作小时必须大于0", "输入错误", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "请输入有效的工作小时数", "输入错误", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String workDate = dateField.getText();
+        String description = descArea.getText();
+
+        // 修改当前Workload对象的四个字段的信息
+
+
+//        workload.setTeacher(teacherName);
+//        workload.setHours(workHours);
+//        workload.setWorkDate(workDate);
+//        workload.setDescription(description);
+
+        // 保存数据
+        DataUtil.saveWorkload(workload);
+
+        // 刷新父窗口表格
+        if (mainFrame != null) {
+            mainFrame.refreshTable();
+        }
+
+        // 关闭当前窗口
+        dispose();
+    }
+
+    public void deleteWorkload(MainFrame parent, DefaultTableModel tableModel, int selectedRow) {
+        this.mainFrame = parent;
+        this.model = tableModel;
+        this.selectedRow = selectedRow;
+        // 判断是否已选择数据
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "请先选择要删除的记录");
+            return;
+        }
+        //  删除数据
+        String workloadId = (String) tableModel.getValueAt(selectedRow, 0);
+        DataUtil.deleteWorkload(workloadId);
+        parent.refreshTable();
+        JOptionPane.showMessageDialog(this, "删除成功");
+    }
+
+
+    public void etditWordload(int row) {
+//        row是从开始的行数开始，如果是-1那么就是没选中数据
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "请先选择要修改的记录");
+            return;
+        }
+        String wordload=(String)model.getValueAt(row,0);
+        Workload etditWorkload=DataUtil.getWorkloadById(wordload);
+        new WorkloadFrame(this,etditWorkload,user).setVisible(true);
     }
 }

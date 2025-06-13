@@ -1,6 +1,9 @@
 package com.it.frame;
 
+import com.it.pojo.User;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
@@ -40,12 +43,16 @@ class ButtonRenderer implements TableCellRenderer {
 
 // 自定义按钮面板编辑器
 class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
+    private User  user;
     private JPanel panel;// 按钮面板
     private JButton editBtn;//  修改按钮
     private JButton deleteBtn;//  删除按钮
     private int editedRow;// 被修改的行
+    private WorkloadFrame  workloadFrame;
+    Insets row;
     
-    public ButtonEditor(JTable table, MainFrame frame) {
+    public ButtonEditor(JTable table, MainFrame frame, User user, DefaultTableModel model) {
+        this.user = user;
         panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
         editBtn = new JButton("修改");
         deleteBtn = new JButton("删除");
@@ -56,7 +63,10 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
         editBtn.addActionListener(e -> {
             fireEditingStopped();//  通知表格编辑结束
             //todo 点击编辑，弹出对话框
-            System.out.println("即将弹出编辑对话框...");
+            System.out.println("即将弹出编辑对话框..."+editedRow);
+            fireEditingStopped();
+//            new WorkloadFrame(frame,null, user).setVisible(true);
+            frame.etditWordload(editedRow);
         });
         // 删除按钮事件
         deleteBtn.addActionListener(e -> {
@@ -66,7 +76,7 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
             if (confirm == JOptionPane.YES_OPTION) { // 如果用户确认删除，则调用方法执行删除（传入被删除的行）
                 //todo 执行删除逻辑
                 System.out.println("正在执行删除逻辑");
-                new  deleteWorkload(frame, frame.model, editedRow);
+                frame.deleteWorkload(frame, model, editedRow);
             }
         });
         
@@ -86,6 +96,4 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
     public Object getCellEditorValue() {
         return ""; // 返回值不重要，因为我们直接处理按钮事件
     }
-
-
 }
