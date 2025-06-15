@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -92,6 +91,8 @@ public class WorkloadFrame extends JDialog {
         row2.add(dateField);
         formPanel.add(row2);
 
+
+
         /// 第三行数据设置
         JPanel row3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel how = new JLabel("工作小时:");
@@ -158,6 +159,21 @@ public class WorkloadFrame extends JDialog {
         float workHours=Float.parseFloat(hoursField.getText());
         String workDate = dateField.getText();
         String description = descArea.getText();
+
+//        工作日期不能早于今天(但可以等于今天)
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date inputDate = sdf.parse(workDate);
+            Date yesterday = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
+            if (inputDate.before(yesterday)) {
+                JOptionPane.showMessageDialog(this, "工作日期不能早于今天！");
+                return;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "日期格式错误！请输入yyyy-MM-dd格式的日期。");
+            return;
+        }
+
         // 创建Workload对象并设置属性
         workload.setTeacher(teacherName);
         workload.setHours(workHours);
@@ -170,5 +186,4 @@ public class WorkloadFrame extends JDialog {
         // 关闭当前窗口
         dispose();
     }
-
 }

@@ -48,8 +48,6 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
     private JButton editBtn;//  修改按钮
     private JButton deleteBtn;//  删除按钮
     private int editedRow;// 被修改的行
-    private WorkloadFrame  workloadFrame;
-    Insets row;
     
     public ButtonEditor(JTable table, MainFrame frame, User user, DefaultTableModel model) {
         this.user = user;
@@ -62,10 +60,6 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
         // 修改按钮事件
         editBtn.addActionListener(e -> {
             fireEditingStopped();//  通知表格编辑结束
-            //todo 点击编辑，弹出对话框
-            System.out.println("即将弹出编辑对话框..."+editedRow);
-            fireEditingStopped();
-//            new WorkloadFrame(frame,null, user).setVisible(true);
             frame.etditWordload(editedRow);
         });
         // 删除按钮事件
@@ -74,8 +68,6 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
             //弹出对话框，提示是删除
             int confirm = JOptionPane.showConfirmDialog(table, "确定删除此行吗?", "确认删除", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) { // 如果用户确认删除，则调用方法执行删除（传入被删除的行）
-                //todo 执行删除逻辑
-                System.out.println("正在执行删除逻辑");
                 frame.deleteWorkload(frame, model, editedRow);
             }
         });
@@ -87,7 +79,6 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value,
             boolean isSelected, int row, int column) {
-        System.out.println("第"+row+"行被点击了");
         this.editedRow = row;//  记录被修改的行
         return panel;
     }

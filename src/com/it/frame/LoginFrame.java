@@ -16,7 +16,7 @@ public class LoginFrame extends JFrame {
         //  设置标题和图标
         setTitle("教师工作量管理系统 - 登录");
         //  设置大小
-        setSize(350, 250);
+        setSize(450, 250);
         // 设置关闭按钮
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //传入 null 时，表示相对于屏幕中央位置进行定位。
@@ -45,6 +45,7 @@ public class LoginFrame extends JFrame {
         //  登录按钮
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton loginBtn = new JButton("登录");
+
         // 添加点击事件
         loginBtn.addActionListener(e -> login());
 
@@ -65,35 +66,36 @@ public class LoginFrame extends JFrame {
      * 注册
      */
     private void register() {
+
         // 1. 获取用户名和密码
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
+
         // 2.  校验用户名和密码
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "用户名和密码不能为空");
             return;
         }
+
         // 3. 校验用户是否存在
         User user = DataUtil.getUserByUsername(username);
+
         // 4. 用户已存在
         if (user != null) {
             JOptionPane.showMessageDialog(this, "用户已存在");
             return;
         }
+
         // 5.将用户信息持久化到本地存储中
         user = new User();
-        user.setId(String.valueOf(System.currentTimeMillis()));
+        user.setId(String.valueOf(System.currentTimeMillis()));//时间戳
         user.setUsername(username);
         user.setPassword(password);
         user.setRole("teacher");
         DataUtil.saveUser(user); //  保存用户信息
+
         // 6. 提示用户注册成功
         JOptionPane.showMessageDialog(this, "注册成功,请点击登录");
-//    点击注册按钮后打开另外一个窗口，展示注册登记表，并绑定原窗口不可用
-//        JFrame boundFrame=new JFrame("注册表单");
-//        boundFrame.setSize(500,500);
-//        boundFrame.setLocationRelativeTo(orig);
-
     }
 
 

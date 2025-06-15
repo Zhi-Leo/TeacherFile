@@ -15,17 +15,11 @@ import java.util.ArrayList;
  */
 
 public class MainFrame extends JFrame {
-    private User currentUser;
     private DefaultTableModel model;
     private User user;
     private JTable jtable;
     private int selectedRow;
 
-    private JTextField teacherField = new JTextField(20);
-    private JTextField dateField = new JTextField(20);
-    private JTextField hoursField = new JTextField(20);
-    private JTextArea descArea = new JTextArea(3, 20);
-    private Workload workload = new Workload();
     private MainFrame mainFrame;
 
     public MainFrame(User user) {
@@ -63,36 +57,12 @@ public class MainFrame extends JFrame {
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
 
-//        add(panel0);
-//        setVisible(true);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setLocationRelativeTo(null);
-//        setVisible(true);
-//        setResizable(false);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        this.setJMenuBar(menuBar);
-//        帮助菜单栏含有关于
-//        JMenuBar helpMenuBar = new JMenuBar();
-//        JMenu helpMenu = new JMenu("帮助");
-//        JMenuItem about = new JMenuItem("关于");
-//        helpMenu.add(about);
-//        helpMenuBar.add(helpMenu);
-//        this.setJMenuBar(helpMenuBar);
-//
-//        about.addActionListener(e->{
-//            JOptionPane.showMessageDialog(this, "作者：张三\n" +
-//                    "学号：20202110010011001\n" +
-//                    "联系方式：12345678901\n" +
-//                    "邮箱：<EMAIL>");
-//        });
-
-
         Object[] bt = new Object[]{"ID", "教师名称", "日期", "工作小时", "工作内容描述", "操作"};
         model = new DefaultTableModel(bt, 0);
 //        根据表格模型创建表格组件
         jtable = new JTable(model);
-//        设置表格行高为20
-        jtable.setRowHeight(20);
+//        设置表格行高为30
+        jtable.setRowHeight(30);
 //        添加菜单按钮编辑和删除
         TableColumn column = jtable.getColumnModel().getColumn(5);
         column.setCellRenderer(new ButtonRenderer());
